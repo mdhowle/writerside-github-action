@@ -19,6 +19,12 @@ inputs:
     artifact:
         description: "Archive to store as artifact"
         required: true
+    workingDirectory:
+        description: "Working directory within Writerside container"
+        required: false
+    container:
+        description: "Container to mount its volume"
+        required: false
 
 runs:
     using: 'node20'
