@@ -7,9 +7,8 @@ async function run() {
         const location = core.getInput('location') || '';
         const instance = core.getInput('instance');
         const artifact = core.getInput('artifact');
-        const container = core.getInput('container') || '';
-        const workingDirectory = core.getInput('workingDirectory') || '/github/workspace';
-
+        const buildContainer = core.getInput('build-container');
+        const workingDirectory = core.getInput('working-directory') || '/github/workspace';
         const workspace = process.env.GITHUB_WORKSPACE;
 
         // Set a default docker image if docker-version is undefined
@@ -37,8 +36,8 @@ async function run() {
             '--rm',
         ]
 
-        if (container != '') {
-            args.push("--volumes-from", container);
+        if (buildContainer) {
+            args.push("--volumes-from", buildContainer);
         } else {
             args.push("-v", `${workspace}:${workingDirectory}`);
         }
@@ -49,7 +48,6 @@ async function run() {
             '-c',
             commands
         )
-
 
         // Run your Docker container
         await exec.exec('docker', args);
